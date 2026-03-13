@@ -1068,9 +1068,9 @@ def split_validation(tensor, shape, split):
     width = shape[1]
     heatmaps, rooms, icons = torch.split(tensor, [split[0], 1, 1], 1)
 
-    heatmaps = F.interpolate(heatmaps, size=shape, mode='bilinear', align_corners=False).squeeze().data.numpy()
-    icons = F.interpolate(icons, size=shape, mode='nearest').squeeze().data.numpy()
-    rooms = F.interpolate(rooms, size=shape, mode='nearest').squeeze().data.numpy()
+    heatmaps = F.interpolate(heatmaps, size=shape, mode='bilinear', align_corners=False).squeeze().detach().cpu().numpy()
+    icons = F.interpolate(icons, size=shape, mode='nearest').squeeze().detach().cpu().numpy()
+    rooms = F.interpolate(rooms, size=shape, mode='nearest').squeeze().detach().cpu().numpy()
 
     rooms_new = np.empty([split[1], height, width], float)
     icons_new = np.empty([split[2], height, width], float)
@@ -1091,9 +1091,9 @@ def split_prediction(tensor, shape, split):
     icons = F.softmax(icons, 0)
     rooms = F.softmax(rooms, 0)
 
-    heatmaps = heatmaps.data.numpy()
-    icons = icons.data.numpy()
-    rooms = rooms.data.numpy()
+    heatmaps = heatmaps.detach().cpu().numpy()
+    icons = icons.detach().cpu().numpy()
+    rooms = rooms.detach().cpu().numpy()
 
     return heatmaps, rooms, icons
 
