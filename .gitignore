@@ -129,4 +129,7 @@ dmypy.json
 .pyre/
 *.pkl
 2.93.1/
+
 Data/
+*.blend
+*.stl
